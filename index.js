@@ -14,8 +14,7 @@ const expressValidator = require("express-validator");
 dotenv.config();
 mongoose
   .connect(
-    `mongodb+srv://dbUser:dbUserPassword@cluster0.bgf1cba.mongodb.net/?retryWrites=true&w=majority`,
-
+    process.env.MONGO_URI,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
