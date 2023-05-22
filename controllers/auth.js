@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const expressJwt = require("express-jwt");
+const { expressJwt } = require("express-jwt");
 const _ = require("lodash");
 const { OAuth2Client } = require("google-auth-library");
 const { sendEmail } = require("../helpers");
@@ -130,8 +130,10 @@ exports.signOut = (req, res) => {
   return res.json({ message: "SignOut success!" });
 };
 
-exports.requireSignIn = expressJwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ["HS256"],
-  userProperty: "auth",
-});
+exports.requireSignIn = () => {
+  return expressJwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
+    userProperty: "auth",
+  });
+}
