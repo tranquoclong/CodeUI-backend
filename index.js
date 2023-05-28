@@ -80,7 +80,14 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: 'https://code-ui-nine.vercel.app',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", postRoutes);
 app.use("/api", authRoutes);
@@ -91,7 +98,7 @@ app.use(function (err, req, res, next) {
   }
 });
 const port = process.env.PORT || 8080;
-app.options("*", cors());
+// app.options("*", cors());
 app.listen(port, () => {
   console.log(`a node js api listenting on port ${port}`);
 });
