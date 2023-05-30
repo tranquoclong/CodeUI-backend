@@ -24,23 +24,6 @@ mongoose
 mongoose.connection.on("error", (err) => {
   console.log(`db connection error: ${err.message}`);
 });
-// const connectDB = async () => {
-//   try {
-//     await mongoose.connect(
-//       `mongodb+srv://dbUser:long123@cluster0.nm7vmys.mongodb.net/testnode2?retryWrites=true&w=majority`,
-//       {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//       }
-//     );
-
-//     console.log("MongoDB connected");
-//   } catch (error) {
-//     console.log(error.message);
-//     process.exit(1);
-//   }
-// };
-// connectDB();
 const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
@@ -80,14 +63,12 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
-// app.use(cors());
-app.use(
-  cors({
-    origin: 'https://code-ui-nine.vercel.app',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
+const corsOptions = {
+  origin: "https://code-ui-nine.vercel.app/",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", postRoutes);
 app.use("/api", authRoutes);
@@ -98,7 +79,6 @@ app.use(function (err, req, res, next) {
   }
 });
 const port = process.env.PORT || 8080;
-// app.options("*", cors());
 app.listen(port, () => {
   console.log(`a node js api listenting on port ${port}`);
 });
