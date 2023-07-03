@@ -27,6 +27,7 @@ mongoose.connection.on("error", (err) => {
 const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const adminRoutes = require("./routes/admin");
 
 const options = {
   definition: {
@@ -63,16 +64,20 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
-const corsOptions = {
-  origin: "https://code-ui-nine.vercel.app",
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   // origin: "https://code-ui-nine.vercel.app",
+//   origin: "http://localhost:3000",
+//   credentials: true,
+//   optionSuccessStatus: 200,
+// };
+// app.use(cors(corsOptions));
+// app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", postRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", adminRoutes);
 app.use(function (err, req, res, next) {
   if (err.name === "UnauthorizedError") {
     res.status(401).json({ error: "Unauthorized!" });

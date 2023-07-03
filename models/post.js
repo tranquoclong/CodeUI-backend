@@ -14,9 +14,13 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  status: {
+  type: {
     type: String,
     required: true,
+  },
+  status: {
+    type: String,
+    default: "review",
   },
   postedBy: {
     type: ObjectId,

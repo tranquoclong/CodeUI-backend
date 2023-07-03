@@ -12,23 +12,21 @@ router.put("/post/comment", requireSignIn, controllersPost.comment);
 router.put("/post/uncomment", requireSignIn, controllersPost.uncomment);
 router.put("/post/updateComment", requireSignIn, controllersPost.updateComment);
 router.post(
-  "/post/new/:login",
-  requireSignIn,
-  controllersPost.createPost
+  "/post/new/:login",controllersPost.createPost
   // validator.createPostValidator
 );
-router.get("/post/by/:login", controllersPost.postsByUser);
+router.get("/postApproved/by/:login", controllersPost.postApprovedByUser);
+router.get("/postReview/by/:login", controllersPost.postReviewByUser);
+router.get("/postRejected/by/:login", controllersPost.postRejectedByUser);
 router.get("/post/:postId", controllersPost.singlePost);
 router.put(
   "/post/:postId",
-  requireSignIn,
-  controllersPost.isPoster,
+  // controllersPost.isPoster,
   controllersPost.updatePost
 );
 router.delete(
   "/post/:postId",
-  requireSignIn,
-  controllersPost.isPoster,
+  // controllersPost.isPoster,
   controllersPost.deletePost
 );
 router.get("/post/photo/:postId", controllersPost.photo);
