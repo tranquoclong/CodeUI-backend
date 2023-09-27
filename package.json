@@ -1,0 +1,45 @@
+{
+  "name": "nodeapi-redui",
+  "version": "1.0.0",
+  "description": "nodejs API",
+  "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "api"
+  ],
+  "author": "DRAGONCUTE",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.2.2",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.1.0",
+    "express-validator": "^5.3.1",
+    "formidable": "^1.2.2",
+    "google-auth-library": "^7.6.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.13.8",
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.0",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.12",
+    "swagger-jsdoc": "^6.2.7",
+    "swagger-ui-express": "^4.4.0",
+    "uuid": "^8.3.2"
+  },
+  "engines": {
+    "node": ">=14 <15"
+  }
+}
