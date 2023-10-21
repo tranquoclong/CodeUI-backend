@@ -31,12 +31,15 @@ exports.allUsers = (req, res) => {
   const currentPage = parseInt(req.query.page) || 1;
   const perPage = parseInt(req.query.perPage) || 10;
   const name = req.query.name || "";
+  const ne = req.query.ne;
   let totalItems;
-  const Users = User.find()
+  const filterName = { name: { $regex: name, $options: "i" } };
+  const filterNe = { _id: { $ne: ne } };
+  User.find()
     .countDocuments()
     .then((count) => {
       totalItems = count;
-      return User.find({ name: { $regex: name, $options: "i" } })
+      return User.find(ne ? filterNe : filterName)
         .skip((currentPage - 1) * perPage)
         .select("login name avatar_url location")
         .limit(perPage)
