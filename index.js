@@ -66,7 +66,7 @@ app.use(cookieParser());
 app.use(expressValidator());
 const corsOptions = {
   // origin: "https://code-ui-nine.vercel.app",
-  origin: "http://localhost:3000",
+  origin: "https://codeui-exe201.vercel.app",
   credentials: true,
   optionSuccessStatus: 200,
 };
