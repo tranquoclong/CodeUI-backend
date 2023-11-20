@@ -3,12 +3,22 @@ const { v1: uuidv1 } = require("uuid");
 const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema({
-  name: {
+  userName: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  fullName: {
     type: String,
     trim: true,
     required: true,
   },
   email: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  phone: {
     type: String,
     trim: true,
     required: true,
@@ -29,7 +39,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "admin",
+    default: "Moderator",
   },
 });
 userSchema

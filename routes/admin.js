@@ -9,6 +9,8 @@ router.post("/admin/signIn", controllersAdmin.signIn);
 router.get("/admin/signOut", controllersAdmin.signOut);
 router.put("/admin/forgot-password", controllersAdmin.forgotPassword);
 router.put("/admin/reset-password", controllersAdmin.resetPassword);
+router.put("/admin/change-password", controllersAdmin.changePassword);
+router.put("/admin/updateMod", controllersAdmin.updateUser);
 router.put(
   "/updateStatus/:postId",
   requireSignIn,
@@ -16,8 +18,10 @@ router.put(
   controllersAdmin.updateStatus
 );
 
-router.get("/admin/users", controllersAdmin.getUsers);
+router.get("/admin/mod", controllersAdmin.getUsers);
 router.get("/admin/posts", controllersAdmin.getPosts);
+router.delete("/admin/deleteMod", controllersAdmin.deleteMod);
+
 
 router.param("postId", controllersPost.postById);
 module.exports = router;

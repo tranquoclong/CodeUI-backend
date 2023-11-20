@@ -31,16 +31,29 @@ exports.signIn = (req, res) => {
         error: "Email and password do not match",
       });
     }
-    const token = jwt.sign(
-      { _id: admin._id, role: admin.role },
-      process.env.JWT_SECRET
-    );
+    const secretKey =
+      "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING";
+    const issuer = "https://securetoken.google.com/codeui-node";
+    const audience =
+      "933189481718-in99pgtqbcs8crfpf0go7n0bkhikb17n.apps.googleusercontent.com";
+    const { _id, userName, email, role } = admin;
+    let claims = {
+      jti: require("crypto").randomUUID(),
+      name: userName,
+      nameid: _id,
+      roles: role,
+    };
+
+    const token = jwt.sign(claims, secretKey, {
+      algorithm: "HS256",
+      expiresIn: "30d",
+      issuer: issuer,
+      audience: audience,
+    });
     res.cookie("t", token, { expire: new Date() + 9999 });
-    const { _id, name, email, role } = admin;
-    return res.json({ token, admin: { _id, email, name, role } });
+    return res.json({ token, _id, email, userName, role });
   });
 };
-
 exports.signOut = (req, res) => {
   res.clearCookie("t");
   return res.json({ message: "SignOut success!" });
@@ -92,15 +105,15 @@ exports.getPosts = (req, res) => {
 exports.getUsers = (req, res) => {
   const currentPage = parseInt(req.query.page) || 1;
   const perPage = parseInt(req.query.perPage) || 10;
-  const name = req.query.name || "";
+  const userName = req.query.userName || "tranquoclong";
   let totalItems;
-  User.find()
+  Admin.find()
     .countDocuments()
     .then((count) => {
       totalItems = count;
-      return User.find({ name: { $regex: name, $options: "i" } })
+      return Admin.find({ userName: { $ne: userName } })
         .skip((currentPage - 1) * perPage)
-        .select("login name email company location role")
+        .select("userName fullName email phone")
         .limit(perPage)
         .sort({ created: -1 });
     })
@@ -114,6 +127,46 @@ exports.getUsers = (req, res) => {
       });
     })
     .catch((err) => console.log(err));
+};
+
+exports.updateUser = (req, res) => {
+  Admin.findOne({ _id: req.body._id }, (err, user) => {
+    if (err || !user)
+      return res.status("401").json({
+        error: "Invalid!",
+      });
+    user = _.extend(user, req.body);
+    user.updated = Date.now();
+    user.save((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err,
+        });
+      }
+      res.json({
+        message: `update mod successfully.`,
+      });
+    });
+  });
+};
+
+exports.deleteMod = (req, res) => {
+    Admin.findOne({ _id: req.query.id }, (err, user) => {
+      if (err || !user)
+        return res.status("401").json({
+          error: "Invalid!",
+        });
+      user.remove((err, result) => {
+        if (err) {
+          return res.status(400).json({
+            error: err,
+          });
+        }
+        res.json({
+          message: `remove mod successfully.`,
+        });
+      });
+    });
 };
 
 exports.isAdmin = (req, res, next) => {
@@ -180,6 +233,36 @@ exports.resetPassword = (req, res) => {
       }
       res.json({
         message: `Great! login with your new password.`,
+      });
+    });
+  });
+};
+
+exports.changePassword = (req, res) => {
+  const {email, oldPassword, password } = req.body;
+  Admin.findOne({ email }, (err, user) => {
+    if (err || !user)
+      return res.status("401").json({
+        error: "Invalid Link!",
+      });
+    if (!user.authenticate(oldPassword)) {
+      return res.status(401).json({
+        error: "password do not match",
+      });
+    }
+    const updatedFields = {
+      password: password,
+    };
+    user = _.extend(user, updatedFields);
+    user.updated = Date.now();
+    user.save((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err,
+        });
+      }
+      res.json({
+        message: `Great! change password success.`,
       });
     });
   });
