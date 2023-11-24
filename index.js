@@ -65,13 +65,13 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
 const corsOptions = {
-  // origin: "https://code-ui-nine.vercel.app",
-  origin: [
-    "https://codeui.vercel.app",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:5174",
-    "https://codeui-exe201.vercel.app",
-  ],
+  origin: "https://codeui.vercel.app",
+  // origin: [
+  //   "https://codeui.vercel.app",
+  //   "http://127.0.0.1:5173",
+  //   "http://127.0.0.1:5174",
+  //   "https://codeui-exe201.vercel.app",
+  // ],
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -97,20 +97,23 @@ const server = app.listen(port, () => {
 
 
 
-// const admin = require("firebase-admin");
-// let serviceAccount = require("C:/Users/MSI/Downloads/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
+const admin = require("firebase-admin");
+let serviceAccount = require("./helpers/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL:
-//     "https://codeui-node-default-rtdb.asia-southeast1.firebasedatabase.app",
-// });
+// admin.initializeApp(
+//   {
+//     credential: admin.credential.cert(serviceAccount),
+//     databaseURL:
+//       "https://codeui-node-default-rtdb.asia-southeast1.firebasedatabase.app",
+//   },
+//   "uniqueAppName"
+// );
 // const db = admin.firestore();
 // const collectionRef = db.collection("elements");
 // collectionRef.get().then((snapshot) => {
 //   snapshot.forEach((doc) => {
 //     collectionRef.doc(doc.id).update({
-//       createDate: "2023-10-13T00:00:00",
+//       source: { name: "original", url: "", author: "" },
 //     });
 //   });
 // });
