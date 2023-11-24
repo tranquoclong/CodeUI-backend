@@ -25,7 +25,7 @@ mongoose.connection.on("error", (err) => {
 const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
-const adminRoutes = require("./routes/admin");
+// const adminRoutes = require("./routes/admin");
 const toolRoutes = require("./routes/tool");
 const messageRoutes = require("./routes/messages");
 
@@ -65,13 +65,13 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
 const corsOptions = {
-  origin: "https://codeui.vercel.app",
-  // origin: [
-  //   "https://codeui.vercel.app",
-  //   "http://127.0.0.1:5173",
-  //   "http://127.0.0.1:5174",
-  //   "https://codeui-exe201.vercel.app",
-  // ],
+  // origin: "https://codeui.vercel.app",
+  origin: [
+    "https://codeui.vercel.app",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+    "https://codeui-exe201.vercel.app",
+  ],
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -82,7 +82,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", postRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-app.use("/api", adminRoutes);
+// app.use("/api", adminRoutes);
 app.use("/api", toolRoutes);
 app.use("/api", messageRoutes);
 app.use(function (err, req, res, next) {
@@ -97,8 +97,8 @@ const server = app.listen(port, () => {
 
 
 
-const admin = require("firebase-admin");
-let serviceAccount = require("./helpers/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
+// const admin = require("firebase-admin");
+// let serviceAccount = require("./helpers/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
 
 // admin.initializeApp(
 //   {
