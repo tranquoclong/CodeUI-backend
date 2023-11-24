@@ -95,28 +95,6 @@ const server = app.listen(port, () => {
   console.log(`a node js api listenting on port ${port}`);
 });
 
-
-
-// const admin = require("firebase-admin");
-// let serviceAccount = require("./helpers/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
-
-// admin.initializeApp(
-//   {
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL:
-//       "https://codeui-node-default-rtdb.asia-southeast1.firebasedatabase.app",
-//   },
-//   "uniqueAppName"
-// );
-// const db = admin.firestore();
-// const collectionRef = db.collection("elements");
-// collectionRef.get().then((snapshot) => {
-//   snapshot.forEach((doc) => {
-//     collectionRef.doc(doc.id).update({
-//       source: { name: "original", url: "", author: "" },
-//     });
-//   });
-// });
 const io = socket(server, {
   cors: {
     origin: "http://127.0.0.1:5173",
