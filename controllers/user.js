@@ -3,14 +3,14 @@ const _ = require("lodash");
 const User = require("../models/user");
 const Post = require("../models/post");
 
-const admin = require("firebase-admin");
-let serviceAccount = require("C:/Users/MSI/Downloads/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
+// const admin = require("firebase-admin");
+// let serviceAccount = require("C:/Users/MSI/Downloads/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL:
-    "https://codeui-node-default-rtdb.asia-southeast1.firebasedatabase.app",
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL:
+//     "https://codeui-node-default-rtdb.asia-southeast1.firebasedatabase.app",
+// });
 
 exports.userByLogin = (req, res, next, login) => {
   User.findOne({ login }).exec((err, user) => {
@@ -134,19 +134,19 @@ exports.removeFavorite = (req, res) => {
   );
 };
 
-exports.pushNotifications = async (req, res) => {
-   const { data } = req.body;
-  const db = admin.firestore();
-  const collectionRef = db.collection("notifications");
-  const batch = db.batch();
+// exports.pushNotifications = async (req, res) => {
+//    const { data } = req.body;
+//   const db = admin.firestore();
+//   const collectionRef = db.collection("notifications");
+//   const batch = db.batch();
 
-  const snapshot = await collectionRef.get();
-  snapshot.forEach((doc) => {
-    const docRef = collectionRef.doc(doc.id);
-    batch.update(docRef, {
-      data: admin.firestore.FieldValue.arrayUnion(data),
-    });
-  });
-  await batch.commit();
-  return res.json("ok");
-};
+//   const snapshot = await collectionRef.get();
+//   snapshot.forEach((doc) => {
+//     const docRef = collectionRef.doc(doc.id);
+//     batch.update(docRef, {
+//       data: admin.firestore.FieldValue.arrayUnion(data),
+//     });
+//   });
+//   await batch.commit();
+//   return res.json("ok");
+// };
