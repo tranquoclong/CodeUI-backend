@@ -25,7 +25,7 @@ mongoose.connection.on("error", (err) => {
 const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
-// const adminRoutes = require("./routes/admin");
+const adminRoutes = require("./routes/admin");
 const toolRoutes = require("./routes/tool");
 const messageRoutes = require("./routes/messages");
 
@@ -82,7 +82,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", postRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-// app.use("/api", adminRoutes);
+app.use("/api", adminRoutes);
 app.use("/api", toolRoutes);
 app.use("/api", messageRoutes);
 app.use(function (err, req, res, next) {
