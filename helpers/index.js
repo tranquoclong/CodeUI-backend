@@ -6,8 +6,8 @@ exports.sendEmail = (emailData) => {
     secure: false,
     requireTLS: true,
     auth: {
-      user: "longnlp14@gmail.com",
-      pass: "rjtnqskjtczwpzyi",
+      user: "codeui.node@gmail.com",
+      pass: "nxgvywpopktshxqj",
     },
   });
   return transporter

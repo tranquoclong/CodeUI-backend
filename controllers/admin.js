@@ -6,6 +6,7 @@ const User = require("../models/user");
 // const expressJwt = require("express-jwt");
 const _ = require("lodash");
 const { sendEmail } = require("../helpers");
+const { sendMailForgotPassword } = require("../docs/mail");
 dotenv.config();
 exports.signUp = async (req, res) => {
   const adminExists = await Admin.findOne({ email: req.body.email });
@@ -197,7 +198,7 @@ exports.forgotPassword = (req, res) => {
       from: "noreply@node-react.com",
       to: email,
       subject: "Password Reset Instructions",
-      html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password?token=${token}</p>`,
+      html: sendMailForgotPassword(token),
     };
     return user.updateOne({ resetPasswordLink: token }, (err, success) => {
       if (err) {
