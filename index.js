@@ -71,6 +71,7 @@ const corsOptions = {
     "http://127.0.0.1:5173",
     "http://127.0.0.1:5174",
     "https://codeui-exe201.vercel.app",
+    "https://codeui-admin.vercel.app",
   ],
   credentials: true,
   optionSuccessStatus: 200,
