@@ -16,7 +16,7 @@ exports.signUp = async (req, res) => {
     });
   const admin = await new Admin(req.body);
   await admin.save();
-  res.status(200).json({ message: "Signup success! Please login." });
+  res.status(200).json({ id: admin._id, message: "Signup success! Please login." });
 };
 
 exports.signIn = (req, res) => {

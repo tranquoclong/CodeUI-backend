@@ -22,7 +22,7 @@ router.delete("/user/:userId",
 // requireSignIn, 
 controllersUser.deleteUser);
 
-// router.post("/notifications", controllersUser.pushNotifications);
+router.post("/notifications", controllersUser.pushNotifications);
 
 router.param("login", controllersUser.userByLogin);
 
