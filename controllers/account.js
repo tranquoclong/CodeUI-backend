@@ -4,7 +4,7 @@ const Account = require("../models/account");
 
 exports.allAccounts = (req, res) => {
   const currentPage = parseInt(req.query.page) || 1;
-  const perPage = parseInt(req.query.perPage) || 10;
+  const perPage = parseInt(req.query.perPage) || 20;
   const name = req.query.name || "";
   const ne = req.query.ne;
   let totalItems;
@@ -29,4 +29,16 @@ exports.allAccounts = (req, res) => {
       });
     })
     .catch((err) => console.log(err));
+};
+exports.accountById = (req, res) => {
+  Account.findOne({ id: req.query.id }).exec((err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "User not found",
+      });
+    }
+    res.status(200).json({
+      data: user,
+    });
+  });
 };
