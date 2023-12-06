@@ -100,7 +100,7 @@ const server = app.listen(port, () => {
 
 const io = socket(server, {
   cors: {
-    origin: "http://127.0.0.1:5173",
+    origin: "https://codeui.vercel.app",
     credentials: true,
   },
 });
