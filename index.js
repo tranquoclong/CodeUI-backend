@@ -66,16 +66,16 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
 const corsOptions = {
-  // origin: "https://codeui.vercel.app",
-  origin: [
-    "https://codeui.vercel.app",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:5174",
-    "https://codeui-exe201.vercel.app",
-    "https://codeui-admin.vercel.app",
-  ],
+  origin: "https://codeui.vercel.app",
+  // origin: [
+  //   "https://codeui.vercel.app",
+  //   "http://127.0.0.1:5173",
+  //   "http://127.0.0.1:5174",
+  //   "https://codeui-exe201.vercel.app",
+  //   "https://codeui-admin.vercel.app",
+  // ],
   credentials: true,
-  optionSuccessStatus: 200,
+  // optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 // app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
@@ -101,6 +101,7 @@ const server = app.listen(port, () => {
 const io = socket(server, {
   cors: {
     origin: "https://codeui.vercel.app",
+    methods: ["GET", "POST"],
     credentials: true,
   },
 });
