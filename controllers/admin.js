@@ -37,12 +37,14 @@ exports.signIn = (req, res) => {
     const issuer = "https://securetoken.google.com/codeui-node";
     const audience =
       "933189481718-in99pgtqbcs8crfpf0go7n0bkhikb17n.apps.googleusercontent.com";
-    const { _id, userName, email, role } = admin;
+    const { _id, guid, userName, email, role } = admin;
     let claims = {
       jti: require("crypto").randomUUID(),
-      name: userName,
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": userName,
       nameid: _id,
-      roles: role,
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
+        guid,
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
     };
 
     const token = jwt.sign(claims, secretKey, {
@@ -52,7 +54,7 @@ exports.signIn = (req, res) => {
       audience: audience,
     });
     res.cookie("t", token, { expire: new Date() + 9999 });
-    return res.json({ token, _id, email, userName, role });
+    return res.json({ token, _id, guid, email, userName, role });
   });
 };
 exports.signOut = (req, res) => {

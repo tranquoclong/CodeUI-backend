@@ -3,6 +3,11 @@ const { v1: uuidv1 } = require("uuid");
 const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema({
+  guid: {
+    type: String,
+    trim: true,
+    required: true,
+  },
   userName: {
     type: String,
     trim: true,
