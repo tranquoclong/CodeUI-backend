@@ -17,6 +17,8 @@ router.put(
   controllersAdmin.isAdmin,
   controllersAdmin.updateStatus
 );
+router.post("/admin/sendFulfillment", controllersAdmin.actionFulfillment);
+
 
 router.get("/admin/mod", controllersAdmin.getUsers);
 router.get("/admin/posts", controllersAdmin.getPosts);

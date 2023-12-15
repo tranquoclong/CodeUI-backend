@@ -16,7 +16,9 @@ exports.signUp = async (req, res) => {
     });
   const admin = await new Admin(req.body);
   await admin.save();
-  res.status(200).json({ id: admin._id, message: "Signup success! Please login." });
+  res
+    .status(200)
+    .json({ id: admin._id, message: "Signup success! Please login." });
 };
 
 exports.signIn = (req, res) => {
@@ -154,22 +156,22 @@ exports.updateUser = (req, res) => {
 };
 
 exports.deleteMod = (req, res) => {
-    Admin.findOne({ _id: req.query.id }, (err, user) => {
-      if (err || !user)
-        return res.status("401").json({
-          error: "Invalid!",
+  Admin.findOne({ _id: req.query.id }, (err, user) => {
+    if (err || !user)
+      return res.status("401").json({
+        error: "Invalid!",
+      });
+    user.remove((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err,
         });
-      user.remove((err, result) => {
-        if (err) {
-          return res.status(400).json({
-            error: err,
-          });
-        }
-        res.json({
-          message: `remove mod successfully.`,
-        });
+      }
+      res.json({
+        message: `remove mod successfully.`,
       });
     });
+  });
 };
 
 exports.isAdmin = (req, res, next) => {
@@ -242,7 +244,7 @@ exports.resetPassword = (req, res) => {
 };
 
 exports.changePassword = (req, res) => {
-  const {email, oldPassword, password } = req.body;
+  const { email, oldPassword, password } = req.body;
   Admin.findOne({ email }, (err, user) => {
     if (err || !user)
       return res.status("401").json({
@@ -268,5 +270,24 @@ exports.changePassword = (req, res) => {
         message: `Great! change password success.`,
       });
     });
+  });
+};
+
+exports.actionFulfillment = (req, res) => {
+  const { email, action, type } = req.body;
+  const emailData = {
+    from: "noreply@node-react.com",
+    to: email,
+    subject:
+      type === "submit"
+        ? "This Fulfillment has been submit"
+        : type === "reject"
+        ? "This Fulfillment has been rejected"
+        : "This Fulfillment has been accepted",
+    html: sendMailForgotPassword(false, action, type),
+  };
+  sendEmail(emailData);
+  return res.status(200).json({
+    message: `Email has been sent to ${email}!`,
   });
 };
