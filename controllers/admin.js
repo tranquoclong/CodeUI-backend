@@ -275,16 +275,32 @@ exports.changePassword = (req, res) => {
 
 exports.actionFulfillment = (req, res) => {
   const { email, action, type } = req.body;
+  const content =
+    type === "submit"
+      ? "This Fulfillment has been submit"
+      : type === "reject"
+      ? "This Fulfillment has been rejected"
+      : "This Fulfillment has been accepted";
   const emailData = {
     from: "noreply@node-react.com",
     to: email,
-    subject:
-      type === "submit"
-        ? "This Fulfillment has been submit"
-        : type === "reject"
-        ? "This Fulfillment has been rejected"
-        : "This Fulfillment has been accepted",
-    html: sendMailForgotPassword(false, action, type),
+    subject: content,
+    html: sendMailForgotPassword(false, action, content),
+  };
+  sendEmail(emailData);
+  return res.status(200).json({
+    message: `Email has been sent to ${email}!`,
+  });
+};
+
+exports.actionReport = (req, res) => {
+  const { email } = req.body;
+  const content = "This Element has been rejected";
+  const emailData = {
+    from: "noreply@node-react.com",
+    to: email,
+    subject: content,
+    html: sendMailForgotPassword(false,false, content),
   };
   sendEmail(emailData);
   return res.status(200).json({

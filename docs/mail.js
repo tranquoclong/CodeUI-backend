@@ -1,4 +1,4 @@
-exports.sendMailForgotPassword = (token, action,type) => {
+exports.sendMailForgotPassword = (token, action, content) => {
   return ` <div style="background-color: #f4f5f6">
       <table
         height="100%"
@@ -438,14 +438,8 @@ exports.sendMailForgotPassword = (token, action,type) => {
                                                                                                   <strong
                                                                                                     >
                                                                                                     ${
-                                                                                                      type
-                                                                                                        ? type ===
-                                                                                                          "submit"
-                                                                                                          ? "This Fulfillment has been submit"
-                                                                                                          : type ===
-                                                                                                            "reject"
-                                                                                                          ? "This Fulfillment has been rejected"
-                                                                                                          : "This Fulfillment has been accepted"
+                                                                                                      content
+                                                                                                        ? content
                                                                                                         : "Please use the following link to reset your password!"
                                                                                                     }
                                                                                                     </strong
@@ -508,7 +502,7 @@ exports.sendMailForgotPassword = (token, action,type) => {
                                                                                  ${
                                                                                    token
                                                                                      ? `https://codeui-admin.vercel.app/reset-password?token=${token}`
-                                                                                     : `https://codeui.vercel.app/request/${action}`
+                                                                                     : action? `https://codeui.vercel.app/request/${action}`:""
                                                                                  } 
                                                                                 </h3>
                                                                               </div>
