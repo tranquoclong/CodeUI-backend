@@ -502,7 +502,9 @@ exports.sendMailForgotPassword = (token, action, content) => {
                                                                                  ${
                                                                                    token
                                                                                      ? `https://codeui-admin.vercel.app/reset-password?token=${token}`
-                                                                                     : action? `https://codeui.vercel.app/request/${action}`:""
+                                                                                     : action
+                                                                                     ? `http://127.0.0.1:5173/request/${action}`
+                                                                                     : ""
                                                                                  } 
                                                                                 </h3>
                                                                               </div>
