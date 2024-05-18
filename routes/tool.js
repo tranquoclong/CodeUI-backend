@@ -3,5 +3,6 @@ const express = require("express");
 const controllersTool = require("../controllers/tool");
 const router = express.Router();
 router.post("/tool/convert", controllersTool.convert);
+router.get("/tool/goldPrice", controllersTool.goldPrice);
 
 module.exports = router;

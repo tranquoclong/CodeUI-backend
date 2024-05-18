@@ -8,22 +8,18 @@ exports.getPosts = (req, res) => {
   const perPage = parseInt(req.query.perPage) || 10;
   let totalItems;
   const filterType =
-    req.query.type !== "all"
-      ? { type: req.query.type, status: "approved" }
-      : { status: "approved" };
-  Post.find(filterType)
-    .countDocuments()
+    req.query.category !== "all"
+      ? { category: req.query.category, status: "APPROVED" }
+      : { status: "APPROVED" };
+  Post.countDocuments()
     .then((count) => {
       totalItems = count;
-      return (
-        Post.find(filterType)
-          .skip((currentPage - 1) * perPage)
-          // .populate("comments.postedBy", "_id photo name")
-          .populate("postedBy", "_id login name")
-          .select("_id html css theme created type")
-          .limit(perPage)
-          .sort({ created: -1 })
-      );
+      return Post.find(filterType)
+        .skip((currentPage - 1) * perPage)
+        .populate("postedBy", "_id login name")
+        .select("_id html css background typeCSS category source createDate")
+        .limit(perPage)
+        .sort({ created: -1 });
     })
     .then((posts) => {
       res.status(200).json({
@@ -31,7 +27,7 @@ exports.getPosts = (req, res) => {
         totalItems,
         perPage,
         currentPage,
-        list: posts,
+        posts,
       });
     })
     .catch((err) => console.log(err));

@@ -3,14 +3,17 @@ const _ = require("lodash");
 const User = require("../models/user");
 const Post = require("../models/post");
 
-const admin = require("firebase-admin");
-let serviceAccount = require("../helpers/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
+  const admin = require("firebase-admin");
+  let serviceAccount = require("../helpers/codeui-node-firebase-adminsdk-1hvsv-0230a5cfea.json");
+  admin.initializeApp(
+    {
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL:
+        "https://codeui-node-default-rtdb.asia-southeast1.firebasedatabase.app",
+    },
+    // "uniqueAppName"
+  );
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL:
-    "https://codeui-node-default-rtdb.asia-southeast1.firebasedatabase.app",
-});
 
 exports.userByLogin = (req, res, next, login) => {
   User.findOne({ login }).exec((err, user) => {
@@ -135,18 +138,25 @@ exports.removeFavorite = (req, res) => {
 };
 
 exports.pushNotifications = async (req, res) => {
-   const { data } = req.body;
+   const { postedBy } = req.body;
   const db = admin.firestore();
-  const collectionRef = db.collection("notifications");
-  const batch = db.batch();
+  const collectionRef = db.collection("elements");
+  // const batch = db.batch();
 
-  const snapshot = await collectionRef.get();
-  snapshot.forEach((doc) => {
-    const docRef = collectionRef.doc(doc.id);
-    batch.update(docRef, {
-      data: admin.firestore.FieldValue.arrayUnion(data),
+  // const snapshot = await collectionRef.get();
+  // snapshot.forEach((doc) => {
+  //   const docRef = collectionRef.doc(doc.id);
+  //   batch.update(docRef, {
+  //     data: admin.firestore.FieldValue.arrayUnion(data),
+  //   });
+  // });
+    collectionRef.get().then((snapshot) => {
+      snapshot.forEach((doc) => {
+        collectionRef.doc(doc.id).update({
+          postedBy,
+        });
+      });
     });
-  });
-  await batch.commit();
-  return res.json("ok");
+  // await batch.commit();
+  return res.json("successfully!");
 };

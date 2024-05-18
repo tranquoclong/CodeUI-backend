@@ -52,3 +52,20 @@ exports.convert = async (req, res) => {
       break;
   }
 };
+
+exports.goldPrice = async (req, res) => {
+  axios({
+    method: "GET",
+    url: "http://api.btmc.vn/api/BTMCAPI/getpricebtmc?key=3kd8ub1llcg9t45hnoh8hmn7t5kc2v",
+    withCredentials: false,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      return res.json(response.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};

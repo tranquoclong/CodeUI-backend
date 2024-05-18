@@ -23,6 +23,7 @@ mongoose.connection.on("error", (err) => {
   console.log(`db connection error: ${err.message}`);
 });
 const postRoutes = require("./routes/post");
+const categoryRoutes = require("./routes/category");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const accountRoutes = require("./routes/account");
@@ -73,6 +74,7 @@ const corsOptions = {
     "http://127.0.0.1:5174",
     "https://codeui-exe201.vercel.app",
     "https://codeui-admin.vercel.app",
+    "http://localhost:5173",
   ],
   credentials: true,
   // optionSuccessStatus: 200,
@@ -82,6 +84,7 @@ app.use(cors(corsOptions));
 // app.use(cors());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", postRoutes);
+app.use("/api", categoryRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", accountRoutes);

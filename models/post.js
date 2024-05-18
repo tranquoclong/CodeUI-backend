@@ -14,17 +14,36 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  type: {
+  category: {
     type: String,
+    required: true,
+  },
+  tags: {
+    type: Array,
     required: true,
   },
   status: {
     type: String,
     default: "review",
   },
+  subscription: {
+    type: String,
+    required: true,
+  },
   postedBy: {
     type: ObjectId,
     ref: "User",
+  },
+  typeCSS: {
+    type: String,
+    required: true,
+  },
+  viewCount: {
+    type: String,
+    required: true,
+  },
+  source: {
+    type: Object,
   },
   created: {
     type: Date,

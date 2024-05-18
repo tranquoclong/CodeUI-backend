@@ -27,31 +27,12 @@ exports.verifyEmail = (req, res) => {
 exports.signIn = async (req, res) => {
   const { code } = req.query;
   const params =
-    "?client_id=" +
-    process.env.CLIENT_ID +
-    "&client_secret=" +
-    process.env.CLIENT_SECRET +
+    "?client_id=fac8f66eb69598dd2c8b" +
+    // process.env.CLIENT_ID +
+    "&client_secret=684f3a8735ce9939b9587d1d251a3ac26267153c" +
+    // process.env.CLIENT_SECRET +
     "&code=" +
     code;
-  // axios({
-  //   method: "POST",
-  //   url: "https://webtoolfree.com/api/v1/features/css-to-scss/convert",
-  //   withCredentials: false,
-  //   headers: {
-  //     "Content-Type": "application/x-www-form-urlencoded",
-  //   },
-  //   data: {
-  //     input:
-  //       ".cardElement  { height: 250px; border-radius: 8px; } .cardElement .cardCreator  { position: relative; height: 90px; border-radius: 8px; }",
-  //     options: { indent: 2 },
-  //   },
-  // })
-  //   .then((response) => {
-  //     return res.json(response.data);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   });
   await axios({
     method: "GET",
     url: "https://github.com/login/oauth/access_token" + params,
@@ -69,11 +50,11 @@ exports.signIn = async (req, res) => {
               node_id: response.data.node_id,
               login: response.data.login,
               name: response.data.name,
-              email: response.data.email ? response.data.email : "red",
+              email: response.data.email || "codeui",
               avatar_url: response.data.avatar_url,
-              bio: response.data.bio ? response.data.bio : "",
-              location: response.data.location ? response.data.location : "",
-              company: response.data.company ? response.data.company : "",
+              bio: response.data.bio || "",
+              location: response.data.location || "",
+              company: response.data.company || "",
               html_url: response.data.html_url,
             });
             user.save();
@@ -81,63 +62,13 @@ exports.signIn = async (req, res) => {
               { _id: user._id, role: user.role },
               process.env.JWT_SECRET
             );
-            res.cookie("t", token, { expire: new Date() + 9999 });
-            const {
-              _id,
-              login,
-              name,
-              email,
-              avatar_url,
-              bio,
-              location,
-              company,
-              html_url,
-            } = user;
-            return res.json({
-              token,
-              user: {
-                _id,
-                login,
-                name,
-                email,
-                avatar_url,
-                bio,
-                location,
-                company,
-                html_url,
-              },
-            });
+            return res.json({ token });
           }
           const token = jwt.sign(
             { _id: user._id, role: user.role },
             process.env.JWT_SECRET
           );
-          res.cookie("t", token, { expire: new Date() + 9999 });
-          const {
-            _id,
-            login,
-            name,
-            email,
-            avatar_url,
-            bio,
-            location,
-            company,
-            html_url,
-          } = user;
-          return res.json({
-            token,
-            user: {
-              _id,
-              login,
-              name,
-              email,
-              avatar_url,
-              bio,
-              location,
-              company,
-              html_url,
-            },
-          });
+          return res.json({ token });
         });
       });
     }
@@ -149,14 +80,13 @@ exports.signOut = (req, res) => {
   return res.json({ message: "SignOut success!" });
 };
 
-
 exports.requireSignIn = () => {
   return expressJwt({
     secret: process.env.JWT_SECRET,
     algorithms: ["HS256"],
     userProperty: "auth",
   });
-}
+};
 // exports.requireSignIn = expressJwt({
 //   secret: process.env.JWT_SECRET,
 //   algorithms: ["HS256"],
